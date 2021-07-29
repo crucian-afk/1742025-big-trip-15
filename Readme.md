@@ -3,7 +3,7 @@
 * Студент: [Юрий Головяшкин](https://up.htmlacademy.ru/ecmascript/15/user/1742025).
 * Наставник: [Rail Sakhaviev](https://htmlacademy.ru/profile/id1331891).
 
----git
+---
 
 _Не удаляйте и не изменяйте папки и файлы:_
 _`.editorconfig`, `.gitattributes`._
