@@ -2,7 +2,7 @@ import {getRandomInt, getRandomArrayElement, createArr} from '../view/utils.js';
 
 import dayjs from 'dayjs';
 
-const DESCRIPTION_KIT = [
+const descriptions = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.',
   'Fusce tristique felis at fermentum pharetra.',
   'Aliquam id orci ut lectus varius viverra.',
@@ -13,8 +13,8 @@ const DESCRIPTION_KIT = [
   'Nunc fermentum tortor ac porta dapibus.',
   'In rutrum ac purus sit amet tempus.',
 ];
-const CITIES = ['Moscow', 'Seoul', 'Florence', 'Frankfurt-am-Mein', 'Dresden', 'Stuttgart', 'Prague', 'Cairo'];
-const PHOTO_SOURCES = [
+const cities = ['Moscow', 'Seoul', 'Florence', 'Frankfurt-am-Mein', 'Dresden', 'Stuttgart', 'Prague', 'Cairo'];
+const photoSources = [
   `http://picsum.photos/200/152?r=${getRandomInt(1, 1500)}`,
   `http://picsum.photos/200/152?r=${getRandomInt(1, 1500)}`,
   `http://picsum.photos/200/152?r=${getRandomInt(1, 1500)}`,
@@ -23,7 +23,7 @@ const PHOTO_SOURCES = [
   `http://picsum.photos/200/152?r=${getRandomInt(1, 1500)}`,
 ];
 
-const POINTS = [
+const pointTypes = [
   {
     'type': 'taxi',
     'offers': [
@@ -252,14 +252,14 @@ const POINTS = [
 ];
 
 const generatePoints = () => {
-  const mockPoint = getRandomArrayElement(POINTS);
+  const mockPoint = getRandomArrayElement(pointTypes);
   return {
     arrivalDate: dayjs(`2021-0${getRandomInt(1, 9)}-${getRandomInt(1, 28)}`).format('MMM D'),
     type: mockPoint['type'],
     destinationPoint: {
-      description: createArr([...DESCRIPTION_KIT], getRandomInt(1, 5)).join(' '),
-      name: getRandomArrayElement(CITIES),
-      pictures: createArr([...PHOTO_SOURCES], getRandomInt(1, 5)),
+      description: createArr([...descriptions], getRandomInt(1, 5)).join(' '),
+      name: getRandomArrayElement(cities),
+      pictures: createArr([...photoSources], getRandomInt(1, 5)),
     },
     offers: getRandomArrayElement(mockPoint['offers']),
   };
