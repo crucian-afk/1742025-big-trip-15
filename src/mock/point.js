@@ -265,11 +265,10 @@ const generatePoints = () => {
   };
 };
 
-const renderSrc = (address) => (`<img class="event__photo" src="${address}" alt="Event photo">`);
 const generatePhotoGallery = (array) => {
   if (array.length) {
     for (const photo of array) {
-      return renderSrc(photo);
+      return `<img class="event__photo" src="${photo}" alt="Event photo">`;
     }
   }
 };
