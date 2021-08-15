@@ -1,6 +1,7 @@
-import {renderOffer} from '../mock/point';
+import {renderOffer} from '../mock/point.js';
+import {createElement} from './utils.js';
 
-const renderWaypointTemplate = (point) => {
+const createWaypointTemplate = (point) => {
   const {arrivalDate, type, destinationPoint, offers} = point;
   return `
 <li class="trip-events__item">
@@ -41,4 +42,24 @@ const renderWaypointTemplate = (point) => {
 `;
 };
 
-export {renderWaypointTemplate};
+export default class Event {
+  constructor(data) {
+    this._element = null;
+    this._data = data;
+  }
+
+  getTemplate() {
+    return createWaypointTemplate(this._data);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
