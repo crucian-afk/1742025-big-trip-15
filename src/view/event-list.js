@@ -1,9 +1,6 @@
 import {createElement} from './utils.js';
 
-const createMainContentTemplate = () => (`
-<ul class="trip-events__list">
-</ul>`
-);
+const createMainContentTemplate = () => '<ul class="trip-events__list"></ul>';
 
 export default class EventList {
   constructor() {

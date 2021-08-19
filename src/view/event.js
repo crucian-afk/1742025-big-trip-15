@@ -3,8 +3,7 @@ import {createElement} from './utils.js';
 
 const createWaypointTemplate = (point) => {
   const {arrivalDate, type, destinationPoint, offers} = point;
-  return `
-<li class="trip-events__item">
+  return `<li class="trip-events__item">
   <div class="event">
     <time class="event__date" datetime="2019-03-18">${arrivalDate}</time>
     <div class="event__type">

@@ -8,11 +8,6 @@ const getRandomInt = (min= 0, max = Number.MAX_SAFE_INTEGER) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
 
-const createArr = ([...source], maxLength) => Array.from(
-  { length: Math.min(source.length, 1 + Math.random() * maxLength | 0) },
-  () => source.splice(Math.random() * source.length | 0, 1)[0],
-);
-
 const RenderPosition = {
   AFTERBEGIN: 'afterbegin',
   BEFOREEND: 'beforeend',
@@ -39,4 +34,4 @@ const createElement = (template) => {
   return newElement.firstChild;
 };
 
-export {getRandomInt, getRandomArrayElement, createArr, RenderPosition, renderElement, renderTemplate, createElement};
+export {getRandomInt, getRandomArrayElement, RenderPosition, renderElement, renderTemplate, createElement};

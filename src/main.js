@@ -1,5 +1,5 @@
 import {generatePoints} from './mock/point.js';
-import {renderTemplate, RenderPosition} from './view/utils.js';
+import {renderElement, RenderPosition} from './view/utils.js';
 import SiteNavigation from './view/menu.js';
 import RouteInfo from './view/route-info.js';
 import Filters from './view/filters.js';
@@ -7,45 +7,53 @@ import PointsSort from './view/sort.js';
 import EventList from './view/event-list.js';
 import Event from './view/event.js';
 import Form from './view/add-form.js';
-// import {createArr, getRandomArrayElement, getRandomInt} from './view/utils.js';
 
-const POINTS_COUNT = 3;
+const POINTS_COUNT = 10;
 const points = new Array(POINTS_COUNT).fill(null).map(generatePoints);
 
 const routeInfoContainer = document.querySelector('.trip-main');
 const filtersContainer = document.querySelector('.trip-controls__filters');
 const mainContainer = document.querySelector('.trip-events');
-const eventsContainer = document.querySelector('.page-main');
 const menuNavContainer = document.querySelector('.trip-controls__navigation');
 
-const events = new EventList().getTemplate();
-renderTemplate(mainContainer, events, RenderPosition.BEFOREEND);
-renderTemplate(routeInfoContainer, new RouteInfo().getTemplate(), RenderPosition.AFTERBEGIN);
-renderTemplate(menuNavContainer, new SiteNavigation().getTemplate(), RenderPosition.BEFOREEND);
-renderTemplate(filtersContainer, new Filters().getTemplate(), RenderPosition.BEFOREEND);
-renderTemplate(mainContainer, new PointsSort().getTemplate(), RenderPosition.BEFOREEND);
+const events = new EventList();
+renderElement(mainContainer, events.getElement(), RenderPosition.BEFOREEND);
+renderElement(routeInfoContainer, new RouteInfo().getElement(), RenderPosition.AFTERBEGIN);
+renderElement(menuNavContainer, new SiteNavigation().getElement(), RenderPosition.BEFOREEND);
+renderElement(filtersContainer, new Filters().getElement(), RenderPosition.BEFOREEND);
+renderElement(mainContainer, new PointsSort().getElement(), RenderPosition.AFTERBEGIN);
 
 const renderEvent = (list, data) => {
   const eventPoint = new Event(data).getElement();
-  const editForm = new Form(data).getElement();
+  const editForm = new Form(data);
+  const editFormElement = editForm.getElement();
 
-  const openEditFormButton = eventPoint.querySelector('.event__rollup-btn'); // is not a function
-  const closeEditFormButton = editForm.querySelector('.event__rollup-btn'); // is not a function
-  const editFormElement = eventsContainer.querySelector('form'); // is not a function
+  const openEditFormButton = eventPoint.querySelector('.event__rollup-btn');
+  const closeEditFormButton = editFormElement.querySelector('.event__reset-btn');
+  const eventList = document.querySelector('.trip-events__list');
 
   const replacePointToForm = () => {
-    events.replaceChild(eventPoint, editForm);
+    eventList.replaceChild(eventPoint, editFormElement);
   };
 
   const replaceFormToEvent = () => {
-    events.replaceChild(editForm, eventPoint);
+    eventList.replaceChild(editFormElement, eventPoint);
   };
 
-  openEditFormButton.addEventListener('click', () => replacePointToForm());
-  closeEditFormButton.addEventListener('click', () => replaceFormToEvent());
-  editFormElement.addEventListener('submit', () => replaceFormToEvent());
+  openEditFormButton.addEventListener('click', () => {
+    if (editFormElement) {
+      renderElement(events.getElement(), editFormElement, RenderPosition.AFTERBEGIN);
+    }
+  });
+  closeEditFormButton.addEventListener('click', () => {
+    replacePointToForm();
+  });
+  editFormElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    replaceFormToEvent();
+  });
 
-  renderTemplate(events, eventPoint, RenderPosition.BEFOREEND); // container.insertAdjacentHTML is not a function
+  renderElement(events.getElement(), eventPoint, RenderPosition.BEFOREEND);
 };
 
 for (let i = 0; i < points.length; i++) {
