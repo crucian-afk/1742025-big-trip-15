@@ -1,4 +1,14 @@
-import {createElement} from './utils.js';
+import AbstractView from './abstract.js';
+
+
+const getTotalPrice = () => {
+  const eventPriceValues = document.querySelectorAll('.event__price-value');
+  let sum = 0;
+  for (const price of eventPriceValues) {
+    sum += Number(price.innerHTML);
+  }
+  return sum;
+};
 
 const createRouteInfoTemplate = () => (`<section class="trip-main__trip-info  trip-info">
   <div class="trip-info__main">
@@ -8,28 +18,13 @@ const createRouteInfoTemplate = () => (`<section class="trip-main__trip-info  tr
   </div>
 
   <p class="trip-info__cost">
-    Total: &euro;&nbsp;<span class="trip-info__cost-value">1230</span>
+    Total: &euro;&nbsp;<span class="trip-info__cost-value">${getTotalPrice()}</span>
   </p>
 </section>
 `);
 
-export default class RouteInfo {
-  constructor() {
-    this._element = null;
-  }
-
+export default class RouteInfo extends AbstractView {
   getTemplate() {
     return createRouteInfoTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
