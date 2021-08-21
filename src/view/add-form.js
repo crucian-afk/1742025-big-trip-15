@@ -1,9 +1,9 @@
 import {generatePhotoGallery} from '../mock/point.js';
+import {createElement} from './utils.js';
 
-const addFormTemplate = (point) => {
+const createAddFormTemplate = (point) => {
   const {destinationPoint} = point;
-  return `
-  <li class="trip-events__item">
+  return `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
@@ -170,4 +170,24 @@ const addFormTemplate = (point) => {
 `;
 };
 
-export {addFormTemplate};
+export default class Form {
+  constructor(data) {
+    this._element = null;
+    this._data = data;
+  }
+
+  getTemplate() {
+    return createAddFormTemplate(this._data);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

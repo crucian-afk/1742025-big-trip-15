@@ -1,4 +1,4 @@
-import {getRandomInt, getRandomArrayElement, createArr} from '../view/utils.js';
+import {getRandomInt, getRandomArrayElement} from '../view/utils.js';
 
 import dayjs from 'dayjs';
 
@@ -257,9 +257,9 @@ const generatePoints = () => {
     arrivalDate: dayjs(`2021-0${getRandomInt(1, 9)}-${getRandomInt(1, 28)}`).format('MMM D'),
     type: mockPoint['type'],
     destinationPoint: {
-      description: createArr([...descriptions], getRandomInt(1, 5)).join(' '),
+      description: descriptions.slice(4).join(' '),
       name: getRandomArrayElement(cities),
-      pictures: createArr([...photoSources], getRandomInt(1, 5)),
+      pictures: photoSources.slice(getRandomInt(1, 5)),
     },
     offers: getRandomArrayElement(mockPoint['offers']),
   };
@@ -267,16 +267,12 @@ const generatePoints = () => {
 
 const generatePhotoGallery = (array) => {
   if (array.length) {
-    for (const photo of array) {
-      return `<img class="event__photo" src="${photo}" alt="Event photo">`;
-    }
+    return array.map((photo) => `<img class="event__photo" src="${photo}" alt="Event photo">`).join('\n');
   }
 };
 
-const renderOffer = (array) => (`
-<span class="event__offer-title">${array['title']}</span>
-&plus;&euro;&nbsp;
-<span class="event__offer-price">${array['price']}</span>
-`);
+const renderOffer = (offer) => `<span class="event__offer-title">${offer['title']}</span>
+        &plus;&euro;&nbsp;
+        <span class="event__offer-price">${offer['price']}</span>`;
 
 export {generatePoints, generatePhotoGallery, renderOffer};
