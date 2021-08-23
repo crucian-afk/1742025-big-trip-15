@@ -1,5 +1,5 @@
 import {renderOffer} from '../mock/point.js';
-import {createElement} from './utils.js';
+import AbstractView from './abstract.js';
 
 const createWaypointTemplate = (point) => {
   const {arrivalDate, type, destinationPoint, offers} = point;
@@ -41,24 +41,24 @@ const createWaypointTemplate = (point) => {
 `;
 };
 
-export default class Event {
+export default class Event extends AbstractView {
   constructor(data) {
-    this._element = null;
+    super();
     this._data = data;
+    this._editClickHandler = this._editClickHandler.bind(this);
   }
 
   getTemplate() {
     return createWaypointTemplate(this._data);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
+  _editClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.editClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setEditClickHandler(callback) {
+    this._callback.editClick = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._editClickHandler);
   }
 }

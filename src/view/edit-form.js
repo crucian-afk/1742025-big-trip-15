@@ -1,5 +1,5 @@
 import {generatePhotoGallery} from '../mock/point.js';
-import {createElement} from './utils.js';
+import AbstractView from './abstract.js';
 
 const createAddFormTemplate = (point) => {
   const {destinationPoint} = point;
@@ -170,24 +170,34 @@ const createAddFormTemplate = (point) => {
 `;
 };
 
-export default class Form {
+export default class EditForm extends AbstractView {
   constructor(data) {
-    this._element = null;
+    super();
     this._data = data;
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._formCloseHandler = this._formCloseHandler.bind(this);
   }
 
   getTemplate() {
     return createAddFormTemplate(this._data);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
   }
 
-  removeElement() {
-    this._element = null;
+  _formCloseHandler() {
+    this._callback.formClose();
+  }
+
+  setformSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector('.event--edit').addEventListener('submit', this._formSubmitHandler);
+  }
+
+  setformCloseHandler(callback) {
+    this._callback.formClose = callback;
+    this.getElement().querySelector('.event__reset-btn').addEventListener('click', this._formCloseHandler);
   }
 }
