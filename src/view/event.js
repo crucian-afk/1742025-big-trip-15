@@ -2,7 +2,7 @@ import {renderOffer} from '../mock/point.js';
 import AbstractView from './abstract.js';
 
 const createWaypointTemplate = (point) => {
-  const {arrivalDate, type, destinationPoint, offers} = point;
+  const {arrivalDate, type, destinationPoint, offers, price} = point;
   return `<li class="trip-events__item">
   <div class="event">
     <time class="event__date" datetime="2019-03-18">${arrivalDate}</time>
@@ -19,7 +19,7 @@ const createWaypointTemplate = (point) => {
       <p class="event__duration">30M</p>
     </div>
     <p class="event__price">
-      &euro;&nbsp;<span class="event__price-value">20</span>
+      &euro;&nbsp;<span class="event__price-value">${price}</span>
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">

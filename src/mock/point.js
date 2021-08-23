@@ -1,4 +1,4 @@
-import {getRandomInt, getRandomArrayElement} from '../view/utils/common.js';
+import {getRandomInteger, getRandomArrayElement} from '../view/utils/common.js';
 
 import dayjs from 'dayjs';
 
@@ -15,12 +15,12 @@ const descriptions = [
 ];
 const cities = ['Moscow', 'Seoul', 'Florence', 'Frankfurt-am-Mein', 'Dresden', 'Stuttgart', 'Prague', 'Cairo'];
 const photoSources = [
-  `http://picsum.photos/200/152?r=${getRandomInt(1, 1500)}`,
-  `http://picsum.photos/200/152?r=${getRandomInt(1, 1500)}`,
-  `http://picsum.photos/200/152?r=${getRandomInt(1, 1500)}`,
-  `http://picsum.photos/200/152?r=${getRandomInt(1, 1500)}`,
-  `http://picsum.photos/200/152?r=${getRandomInt(1, 1500)}`,
-  `http://picsum.photos/200/152?r=${getRandomInt(1, 1500)}`,
+  `http://picsum.photos/200/152?r=${getRandomInteger(1, 1500)}`,
+  `http://picsum.photos/200/152?r=${getRandomInteger(1, 1500)}`,
+  `http://picsum.photos/200/152?r=${getRandomInteger(1, 1500)}`,
+  `http://picsum.photos/200/152?r=${getRandomInteger(1, 1500)}`,
+  `http://picsum.photos/200/152?r=${getRandomInteger(1, 1500)}`,
+  `http://picsum.photos/200/152?r=${getRandomInteger(1, 1500)}`,
 ];
 
 const pointTypes = [
@@ -254,14 +254,15 @@ const pointTypes = [
 const generatePoints = () => {
   const mockPoint = getRandomArrayElement(pointTypes);
   return {
-    arrivalDate: dayjs(`2021-0${getRandomInt(1, 9)}-${getRandomInt(1, 28)}`).format('MMM D'),
+    arrivalDate: dayjs(`2021-0${getRandomInteger(1, 9)}-${getRandomInteger(1, 28)}`).format('MMM D'),
     type: mockPoint['type'],
     destinationPoint: {
       description: descriptions.slice(4).join(' '),
       name: getRandomArrayElement(cities),
-      pictures: photoSources.slice(getRandomInt(1, 5)),
+      pictures: photoSources.slice(getRandomInteger(1, 5)),
     },
     offers: getRandomArrayElement(mockPoint['offers']),
+    price: Math.ceil(getRandomInteger(10, 300) / 5) * 5,
   };
 };
 

@@ -9,8 +9,8 @@ import Event from './view/event.js';
 import EditForm from './view/edit-form.js';
 import NoEvents from './view/no-events.js';
 
-const pointsCount = 10;
-const wayPoints = new Array(pointsCount).fill(null).map(generatePoints);
+const POINTS_COUNT = 10;
+const wayPoints = new Array(POINTS_COUNT).fill(null).map(generatePoints);
 
 const tripMain = document.querySelector('.trip-main');
 const tripControlsFilters = document.querySelector('.trip-controls__filters');
@@ -19,11 +19,11 @@ const tripControlsNavigation = document.querySelector('.trip-controls__navigatio
 const events = new EventList();
 const noEventsMessage = new NoEvents();
 
-if (pointsCount > 0) {
+if (POINTS_COUNT > 0) {
   render(tripMain, new RouteInfo(), RenderPosition.AFTERBEGIN);
   render(tripEvents, new EventsSort(), RenderPosition.AFTERBEGIN);
 }
-if (pointsCount === 0) {
+if (POINTS_COUNT === 0) {
   render(tripEvents, noEventsMessage, RenderPosition.BEFOREEND);
 }
 
@@ -45,13 +45,13 @@ const renderEvent = (list, data) => {
     replace(editForm, eventPoint);
   };
 
-  const onEscKeyDown = (evt) => {
+  function onEscKeyDown (evt) {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
       replaceEventToForm();
       document.removeEventListener('keydown', onEscKeyDown);
     }
-  };
+  }
 
   eventPoint.setEditClickHandler(() => {
     if (editFormElement) {
@@ -61,14 +61,9 @@ const renderEvent = (list, data) => {
     document.addEventListener('keydown', onEscKeyDown);
   });
 
-  editForm.setformCloseHandler(() => {
-    replaceEventToForm();
-  });
+  editForm.setformCloseHandler(replaceEventToForm);
 
-  editForm.setformSubmitHandler(() => {
-    replaceEventToForm();
-
-  });
+  editForm.setformSubmitHandler(replaceEventToForm);
 
   render(events, eventPoint, RenderPosition.BEFOREEND);
 };

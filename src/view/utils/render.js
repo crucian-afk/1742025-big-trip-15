@@ -42,7 +42,6 @@ const replace = (newChild, oldChild) => {
   }
 
   const parent = oldChild.parentElement;
-  // Can be simplified to parent === null (c) Webstorm
   if (parent === null || oldChild === null || newChild === null) {
     throw new Error('Can\'t replace unexisting elements');
   }
@@ -54,6 +53,9 @@ const remove = (component) => {
   if (!(component instanceof AbstractView)) {
     throw new Error('Can remove only components');
   }
+
+  component.getElement().remove();
+  component.removeElement();
 };
 
 export {RenderPosition, renderElement, render, replace, remove};
