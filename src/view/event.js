@@ -2,7 +2,8 @@ import {renderOffer} from '../mock/point.js';
 import AbstractView from './abstract.js';
 
 const createWaypointTemplate = (point) => {
-  const {arrivalDate, type, destinationPoint, offers, price} = point;
+  const {arrivalDate, type, destinationPoint, offers, price, isFavorite} = point;
+  const favoriteClass = isFavorite ?  'event__favorite-btn  event__favorite-btn--active' : 'event__favorite-btn';
   return `<li class="trip-events__item">
   <div class="event">
     <time class="event__date" datetime="2019-03-18">${arrivalDate}</time>
@@ -27,7 +28,7 @@ const createWaypointTemplate = (point) => {
         ${renderOffer(offers)}
       </li>
     </ul>
-    <button class="event__favorite-btn event__favorite-btn--active" type="button">
+    <button class="${favoriteClass}" type="button">
       <span class="visually-hidden">Add to favorite</span>
       <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
         <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>
@@ -46,6 +47,7 @@ export default class Event extends AbstractView {
     super();
     this._data = data;
     this._editClickHandler = this._editClickHandler.bind(this);
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -57,8 +59,18 @@ export default class Event extends AbstractView {
     this._callback.editClick();
   }
 
+  _favoriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  }
+
   setEditClickHandler(callback) {
     this._callback.editClick = callback;
     this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._editClickHandler);
+  }
+
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector('.event__favorite-btn').addEventListener('click', this._favoriteClickHandler);
   }
 }

@@ -1,6 +1,6 @@
 import {getRandomInteger, getRandomArrayElement} from '../view/utils/common.js';
-
 import dayjs from 'dayjs';
+import {nanoid} from 'nanoid';
 
 const descriptions = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.',
@@ -254,6 +254,7 @@ const pointTypes = [
 const generatePoints = () => {
   const mockPoint = getRandomArrayElement(pointTypes);
   return {
+    id: nanoid(),
     arrivalDate: dayjs(`2021-0${getRandomInteger(1, 9)}-${getRandomInteger(1, 28)}`).format('MMM D'),
     type: mockPoint['type'],
     destinationPoint: {

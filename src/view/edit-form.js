@@ -191,7 +191,15 @@ export default class EditForm extends AbstractView {
     this._callback.formClose();
   }
 
-  setformSubmitHandler(callback) {
+  _escKeyDownHandler(evt) {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      this._callback.formClose();
+
+    }
+  }
+
+  setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
     this.getElement().querySelector('.event--edit').addEventListener('submit', this._formSubmitHandler);
   }
@@ -199,5 +207,11 @@ export default class EditForm extends AbstractView {
   setformCloseHandler(callback) {
     this._callback.formClose = callback;
     this.getElement().querySelector('.event__reset-btn').addEventListener('click', this._formCloseHandler);
+  }
+
+  onEscKeyDownHandler() {
+    // проблема
+    // this._callback.formClose = callback;
+    document.removeEventListener('keydown', this._escKeyDownHandler);
   }
 }
