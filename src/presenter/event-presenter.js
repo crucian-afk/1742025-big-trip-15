@@ -25,8 +25,8 @@ export default class EventPresenter {
   }
 
   init(data) {
-    const prevEventComponent = this._eventComponent;
-    const prevFormEditComponent = this._editFormComponent;
+    this.prevEventComponent = this._eventComponent;
+    this.prevFormEditComponent = this._editFormComponent;
 
     this._event = data;
     this._eventComponent = new Event(data);
@@ -35,24 +35,11 @@ export default class EventPresenter {
     this._eventComponent.setEditClickHandler(this._handleEditClick);
     this._eventComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._editFormComponent.setFormSubmitHandler(this._handleFormSubmit);
-    this._editFormComponent.setformCloseHandler(this._handleFormClose);
+    this._editFormComponent.setFormCloseHandler(this._handleFormClose);
     this._editFormComponent.onEscKeyDownHandler(this._escKeyDownHandler);
 
-    if (prevEventComponent === null || prevFormEditComponent === null) {
-      render(this._eventListContainer, this._eventComponent, RenderPosition.BEFOREEND);
-      return;
-    }
-
-    if (this._mode === Mode.DEFAULT) {
-      replace(this._eventComponent, prevEventComponent);
-    }
-
-    if (this._mode === Mode.EDITING) {
-      replace(this._editFormComponent, prevFormEditComponent);
-    }
-
-    remove(prevFormEditComponent);
-    remove(prevEventComponent);
+    this.renderEventComponent();
+    this.renderFormEditComponent();
   }
 
   destroy() {
@@ -63,6 +50,23 @@ export default class EventPresenter {
   resetView() {
     if (this._mode !== Mode.DEFAULT) {
       this._replaceFormToEvent();
+    }
+  }
+
+  renderEventComponent() {
+    if (this.prevEventComponent === null || this.prevFormEditComponent === null) {
+      render(this._eventListContainer, this._eventComponent, RenderPosition.BEFOREEND);
+      return;
+    }
+
+    if (this._mode === Mode.DEFAULT) {
+      replace(this._eventComponent, this.prevEventComponent);
+    }
+  }
+
+  renderFormEditComponent() {
+    if (this._mode === Mode.EDITING) {
+      replace(this._editFormComponent, this.prevFormEditComponent);
     }
   }
 
@@ -82,8 +86,7 @@ export default class EventPresenter {
   _escKeyDownHandler(evt) {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
-      this._replaceEventToForm();
-      // document.removeEventListener('keydown', this._escKeyDownHandler);
+      this._handleFormClose();
     }
   }
 
@@ -96,7 +99,6 @@ export default class EventPresenter {
   }
 
   _handleFormClose() {
-    // проблема с кнопкой ESC
     this._replaceFormToEvent();
   }
 
